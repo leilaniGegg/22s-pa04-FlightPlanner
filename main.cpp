@@ -1,5 +1,5 @@
 /**
- * Fall 2021 PA 04 - Flight Planner Template Repo.
+ * Fall 2021 PA 04 - Node Planner Template Repo.
  * Based on PA 02 Template repo
  */
 
