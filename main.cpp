@@ -15,17 +15,27 @@
  * machine.
  */
 #include "catch_setup.h"
+#include "DSLinkedList.h"
+#include "Flight.h"
+#include "DSString.h"
+
+using namespace std;
 
 int main(int argc, char** argv) {
-    if(argc == 1) {
-        runCatchTests();
-    }
-    else {
-        std::cout << "Hello, 2341 students!" << std::endl;
-        std::cout << "Attempting to open and write to " << argv[2] << std::endl;
-        std::ofstream o(argv[3]);
-        o << "Writing to output file." << std::endl;
-        o.close();
-    }
+    //if(argc == 1) {
+        //runCatchTests();
+    //}
+    //else {
+        Flight A;
+        Flight B("Dallas", "Austin", "American", 34, 5);
+        Flight C("ugly", "idiot", "cat", 50, 13);
+        DSLinkedList<Flight> test;
+        test.push_back(A);
+        test.push_back(B);
+        test.push_back(C);
+        cout << test.pop_back() << endl;
+        cout << test.pop_front() << endl;
+
+   //}
     return 0;
 }

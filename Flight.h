@@ -5,6 +5,7 @@
 #ifndef INC_22S_FLIGHT_PLANNER_FLIGHT_H
 #define INC_22S_FLIGHT_PLANNER_FLIGHT_H
 
+#include <iostream>
 #include "DSString.h"
 
 class Flight{
@@ -14,11 +15,20 @@ private:
     DSString airline;
     int cost;
     int time;
+
 public:
     Flight();
+    Flight(DSString s, DSString e, DSString a, int c, int t);
     ~Flight();
     Flight(const Flight&);
     Flight& operator=(const Flight&);
+    DSString& getStart();
+    DSString& getEnd();
+    DSString& getAirline();
+    int getCost();
+    int getTime();
+    friend ostream& operator<< (ostream&, const Flight&);
+
 
 };
 #endif //INC_22S_FLIGHT_PLANNER_FLIGHT_H
