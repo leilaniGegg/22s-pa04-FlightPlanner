@@ -33,9 +33,24 @@ int main(int argc, char** argv) {
         test.push_back(A);
         test.push_back(B);
         test.push_back(C);
-        cout << test.pop_back() << endl;
-        cout << test.pop_front() << endl;
+        cout << test.peek_back().getStart() << endl;
+        test.resetIteratorBack();
+        while(test.hasPrev()){
+            cout << test.getCurr()->data.getStart() << endl;
+            test.getPrev();
+        }
+        cout << test.getCurr()->data.getStart() << endl;
+        DSLinkedList<DSLinkedList<Flight>> listOfLists;
+        cout << "here" << endl;
+        listOfLists.push_back(test);
+        cout <<"here" << endl;
+        DSLinkedList<Flight> dumb = listOfLists.peek_front();
+        cout << dumb.peek_back() << endl;
+        cout << listOfLists.peek_front().peek_front().getStart() << endl;
 
    //}
     return 0;
 }
+
+
+//from input file, make the adjaceny list

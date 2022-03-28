@@ -21,6 +21,7 @@ Flight::Flight(DSString s, DSString e, DSString a, int c, int t){
 }
 
 Flight::~Flight(){
+
 }
 
 Flight::Flight(const Flight& temp){
