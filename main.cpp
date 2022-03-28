@@ -16,6 +16,7 @@
  */
 #include "catch_setup.h"
 #include "DSLinkedList.h"
+#include "DSStack.h"
 #include "Flight.h"
 #include "DSString.h"
 
@@ -33,20 +34,14 @@ int main(int argc, char** argv) {
         test.push_back(A);
         test.push_back(B);
         test.push_back(C);
-        cout << test.peek_back().getStart() << endl;
-        test.resetIteratorBack();
-        while(test.hasPrev()){
-            cout << test.getCurr()->data.getStart() << endl;
-            test.getPrev();
-        }
-        cout << test.getCurr()->data.getStart() << endl;
-        DSLinkedList<DSLinkedList<Flight>> listOfLists;
-        cout << "here" << endl;
-        listOfLists.push_back(test);
-        cout <<"here" << endl;
-        DSLinkedList<Flight> dumb = listOfLists.peek_front();
-        cout << dumb.peek_back() << endl;
-        cout << listOfLists.peek_front().peek_front().getStart() << endl;
+
+        DSStack<DSString> testStack;
+        testStack.push("Cloud");
+        testStack.push("Sun");
+        testStack.push("Rain");
+        cout << testStack.peek() << endl;
+        testStack.pop();
+        cout << testStack.peek() << endl;
 
    //}
     return 0;

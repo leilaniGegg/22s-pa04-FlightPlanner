@@ -42,6 +42,8 @@ public:
     Node<T>* getCurr();
     bool hasNext();
     bool hasPrev();
+    Node<T>* begin();
+    Node<T>* end();
     void resetIteratorFront();
     void resetIteratorBack();
 };
@@ -160,6 +162,16 @@ bool DSLinkedList<T>::hasPrev(){
 }
 
 template <typename T>
+Node<T>* DSLinkedList<T>::begin(){
+    return head;
+}
+
+template <typename T>
+Node<T>* DSLinkedList<T>::end(){
+    return tail;
+}
+
+template <typename T>
 void DSLinkedList<T>::resetIteratorFront(){
     itr = head;
 }
@@ -169,6 +181,10 @@ void DSLinkedList<T>::resetIteratorBack(){
     itr = tail;
 }
 
+
+/**
+ * MODIFIERS AND ACCESORS
+ */
 template <typename T>
 void DSLinkedList<T>::push_back(T element){
     Node<T>* newNode = new Node<T>;
@@ -208,6 +224,7 @@ template <typename T>
 T DSLinkedList<T>::pop_front(){
     if(size == 0){
         cout << "LinkedList is empty" << endl;
+        return;
     }
     else{
         Node<T>* front = new Node<T>;
@@ -215,7 +232,7 @@ T DSLinkedList<T>::pop_front(){
         head = head->next;
         delete front;
         size--;
-        return removedValue; // not sure if it needs *
+        return removedValue;
     }
 
 }
@@ -224,6 +241,7 @@ template <typename T>
 T DSLinkedList<T>::pop_back(){
     if(size == 0){
         cout << "LinkedList is empty" << endl;
+        return;
     }
     else{
         Node<T>* back = new Node<T>;
@@ -233,7 +251,6 @@ T DSLinkedList<T>::pop_back(){
         size--;
         return removedValue;
     }
-
 }
 
 template <typename T>
