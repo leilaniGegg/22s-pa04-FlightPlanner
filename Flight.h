@@ -22,6 +22,7 @@ public:
     ~Flight();
     Flight(const Flight&);
     Flight& operator=(const Flight&);
+    bool operator==(const Flight&);
     DSString& getStart();
     DSString& getEnd();
     DSString& getAirline();

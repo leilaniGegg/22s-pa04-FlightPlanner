@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
         test.push_back(A);
         test.push_back(B);
         test.push_back(C);
-
+        cout << test.find(C) << endl;
         DSStack<DSString> testStack;
         testStack.push("Cloud");
         testStack.push("Sun");

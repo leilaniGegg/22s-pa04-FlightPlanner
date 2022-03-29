@@ -36,6 +36,7 @@ public:
     T& peek_front()const;
     T& peek_back()const;
     void insert(T element, int index);
+    T& find(T& element);
     int getSize()const;
     void getNext();
     void getPrev();
@@ -224,7 +225,6 @@ template <typename T>
 T DSLinkedList<T>::pop_front(){
     if(size == 0){
         cout << "LinkedList is empty" << endl;
-        return;
     }
     else{
         Node<T>* front = new Node<T>;
@@ -241,7 +241,6 @@ template <typename T>
 T DSLinkedList<T>::pop_back(){
     if(size == 0){
         cout << "LinkedList is empty" << endl;
-        return;
     }
     else{
         Node<T>* back = new Node<T>;
@@ -262,6 +261,19 @@ template <typename T>
 T& DSLinkedList<T>::peek_back()const{
     return tail->data;
 }
+
+template <typename T>
+T& DSLinkedList<T>::find(T& element){
+    this->resetIteratorFront();
+    while(this->getCurr() != nullptr){
+        if(this->getCurr()->data == element){
+            return this->getCurr()->data;
+        }
+        this->getNext();
+    }
+}
+
+
 template <typename T>
 int DSLinkedList<T>::getSize()const{
     return size;

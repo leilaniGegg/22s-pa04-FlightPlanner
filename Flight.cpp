@@ -41,6 +41,15 @@ Flight& Flight::operator=(const Flight& temp){
     return *this;
 }
 
+
+bool Flight::operator==(const Flight& temp){
+    if(this->startCity == temp.startCity && this->endCity == temp.endCity &&
+       this->airline == temp.airline && this->cost == temp.cost && this->time == temp.time){
+        return true;
+    }
+    return false;
+}
+
 DSString& Flight::getStart(){
     return startCity;
 }
