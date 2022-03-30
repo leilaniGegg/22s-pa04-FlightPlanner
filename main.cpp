@@ -20,6 +20,7 @@
 #include "Flight.h"
 #include "DSString.h"
 #include "OriginCity.h"
+#include "FileManager.h"
 
 using namespace std;
 
@@ -44,7 +45,13 @@ int main(int argc, char** argv) {
         testStack.pop();
         cout << testStack.peek() << endl;
 
+        FileManager fileIO;
         DSLinkedList<OriginCity> adjacencyList;
+        fileIO.readFlightData(argv[1], adjacencyList);
+        cout << endl;
+        adjacencyList.display();
+
+
    //}
     return 0;
 }

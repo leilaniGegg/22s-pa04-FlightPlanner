@@ -48,6 +48,7 @@ public:
     Node<T>* end();
     void resetIteratorFront();
     void resetIteratorBack();
+    void display();
 };
 
 template<typename T>
@@ -276,6 +277,9 @@ T& DSLinkedList<T>::find(const T& element){
 
 template <typename T>
 bool DSLinkedList<T>::exists(const T& element){
+    if(this->getSize() == 0){
+        return false;
+    }
     this->resetIteratorFront();
     while(this->getCurr() != nullptr){
         if(this->getCurr()->data == element){
@@ -289,6 +293,15 @@ bool DSLinkedList<T>::exists(const T& element){
 template <typename T>
 int DSLinkedList<T>::getSize()const{
     return size;
+}
+
+template <typename T>
+void DSLinkedList<T>::display(){
+    this->resetIteratorFront();
+    while(this->getCurr() != nullptr){
+        cout << this->getCurr()->data << endl;
+        this->getNext();
+    }
 }
 
 #endif //INC_22S_FLIGHT_PLANNER_DSLINKEDLIST_H

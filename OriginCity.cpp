@@ -4,6 +4,10 @@
 
 #include "OriginCity.h"
 
+OriginCity::OriginCity(){
+
+}
+
 OriginCity::OriginCity(const DSString& temp){
     origin = temp;
 }
@@ -22,4 +26,10 @@ OriginCity& OriginCity::operator=(const OriginCity& temp){
 
 DSString OriginCity::getOrigin()const{
     return origin;
+}
+
+ostream& operator<<(ostream& output, OriginCity& temp){
+    cout << temp.getOrigin() << ": ";
+    temp.destinations.display();
+    return output;
 }

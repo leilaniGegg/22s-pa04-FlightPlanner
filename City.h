@@ -13,6 +13,7 @@ private:
     DSString airline;
     int cost, time;
 public:
+    City();
     City(const DSString& endCity, int cost, int time, const DSString& airline);
     ~City();
     City(const City&);
@@ -22,5 +23,6 @@ public:
     DSString getAirline();
     int getCost()const;
     int getTime()const;
+    friend ostream& operator<<(ostream& output, const City& temp);
 };
 #endif //INC_22S_FLIGHT_PLANNER_CITY_H

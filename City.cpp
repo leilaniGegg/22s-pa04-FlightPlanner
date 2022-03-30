@@ -3,7 +3,12 @@
 //
 
 #include "City.h"
+
+City::City(){
+
+}
 City::City(const DSString& endCity, int cost, int time, const DSString& airline){
+    cout << "making destination city" << endl;
     this->endCity = endCity;
     this->airline = airline;
     this->cost = cost;
@@ -28,8 +33,11 @@ City& City::operator=(const City& temp){
 }
 
 bool City::operator==(City& temp){
-    if(this->endCity == temp.getEndCity() && this->airline == temp.getAirline() &&
+    /*if(this->endCity == temp.getEndCity() && this->airline == temp.getAirline() &&
        this->cost == temp.getCost() && this->time == temp.getTime()){
+        return true;
+    }*/
+    if(this->endCity == temp.getEndCity()){
         return true;
     }
     return false;
@@ -45,4 +53,9 @@ int City::getCost()const{
 }
 int City::getTime()const{
     return time;
+}
+
+ostream& operator<<(ostream& output, const City& temp){
+    cout << temp.endCity << ", ";
+    return output;
 }
