@@ -3,7 +3,7 @@
 //
 
 #include "City.h"
-City::City(DSString endCity, DSString airline, int cost, int time){
+City::City(const DSString& endCity, int cost, int time, const DSString& airline){
     this->endCity = endCity;
     this->airline = airline;
     this->cost = cost;

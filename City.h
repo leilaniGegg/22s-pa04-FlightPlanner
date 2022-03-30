@@ -13,7 +13,7 @@ private:
     DSString airline;
     int cost, time;
 public:
-    City(DSString endCity, DSString airline, int cost, int time);
+    City(const DSString& endCity, int cost, int time, const DSString& airline);
     ~City();
     City(const City&);
     City& operator=(const City&);

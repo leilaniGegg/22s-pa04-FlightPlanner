@@ -14,6 +14,9 @@ private:
 public:
     DSLinkedList<City> destinations;
     OriginCity(const DSString&);
-    DSString getOrigin();
+    bool operator==(const OriginCity& temp);
+    OriginCity& operator=(const OriginCity& temp);
+    DSString getOrigin()const;
+
 };
 #endif //INC_22S_FLIGHT_PLANNER_ORIGINCITY_H

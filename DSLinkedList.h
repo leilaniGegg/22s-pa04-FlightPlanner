@@ -36,7 +36,8 @@ public:
     T& peek_front()const;
     T& peek_back()const;
     void insert(T element, int index);
-    T& find(T& element);
+    T& find(const T& element);
+    bool exists(const T& element);
     int getSize()const;
     void getNext();
     void getPrev();
@@ -263,7 +264,7 @@ T& DSLinkedList<T>::peek_back()const{
 }
 
 template <typename T>
-T& DSLinkedList<T>::find(T& element){
+T& DSLinkedList<T>::find(const T& element){
     this->resetIteratorFront();
     while(this->getCurr() != nullptr){
         if(this->getCurr()->data == element){
@@ -273,6 +274,17 @@ T& DSLinkedList<T>::find(T& element){
     }
 }
 
+template <typename T>
+bool DSLinkedList<T>::exists(const T& element){
+    this->resetIteratorFront();
+    while(this->getCurr() != nullptr){
+        if(this->getCurr()->data == element){
+            return true;
+        }
+        this->getNext();
+    }
+    return false;
+}
 
 template <typename T>
 int DSLinkedList<T>::getSize()const{

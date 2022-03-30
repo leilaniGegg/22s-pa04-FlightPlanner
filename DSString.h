@@ -8,7 +8,7 @@
 #include <sstream>
 #include <cstring>
 #include <algorithm>
-#include <vector>
+#include "DSVector.h"
 #include <map>
 #include <iterator>
 
@@ -108,6 +108,7 @@ public:
      **/
     DSString substring(int start, int numChars);
     DSString substringIndex(int start, int end); //substring from start to end index-1
+    DSVector<DSString> parseLine(const char*)const;
 
     /**
      * the c_str function returns a null-terminated c-string holding the

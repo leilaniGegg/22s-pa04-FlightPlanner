@@ -19,6 +19,7 @@
 #include "DSStack.h"
 #include "Flight.h"
 #include "DSString.h"
+#include "OriginCity.h"
 
 using namespace std;
 
@@ -43,6 +44,7 @@ int main(int argc, char** argv) {
         testStack.pop();
         cout << testStack.peek() << endl;
 
+        DSLinkedList<OriginCity> adjacencyList;
    //}
     return 0;
 }

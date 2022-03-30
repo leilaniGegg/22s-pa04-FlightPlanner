@@ -193,3 +193,14 @@ DSString DSString::toUpper()const{
     }
     return temp;
 }
+
+DSVector<DSString> DSString::parseLine(const char* delim)const{
+    DSVector<DSString> wordsFromLine;
+    char* tempWord = strtok(this->c_str(), delim);
+    while(tempWord != NULL){
+        DSString newWord(tempWord);
+        wordsFromLine.push_back(newWord);//will this work?
+        tempWord = strtok(NULL, delim);
+    }
+    return wordsFromLine;
+}

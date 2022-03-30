@@ -7,6 +7,19 @@
 OriginCity::OriginCity(const DSString& temp){
     origin = temp;
 }
-DSString OriginCity::getOrigin(){
+
+bool OriginCity::operator==(const OriginCity& temp){
+    if(this->origin == temp.getOrigin()){
+        return true;
+    }
+    return false;
+}
+
+OriginCity& OriginCity::operator=(const OriginCity& temp){
+    this->origin = temp.getOrigin();
+    return *this;
+}
+
+DSString OriginCity::getOrigin()const{
     return origin;
 }
