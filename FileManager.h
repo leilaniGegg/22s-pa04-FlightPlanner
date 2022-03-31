@@ -12,6 +12,7 @@
 class FileManager{
 public:
     void readFlightData(const DSString& filename, DSLinkedList<OriginCity>& adjList); //basically make adjacency list
+    void readRequestedFlights(const DSString& filename, DSVector<DSVector<DSString>>& requests);
 };
 
 void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCity>& adjList){
@@ -86,5 +87,25 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
         }
     }
     file.close();
+}
+
+void FileManager::readRequestedFlights(const DSString& filename, DSVector<DSVector<DSString>>& requests){
+    ifstream file;
+    file.open(filename.c_str());
+    if(!file.is_open()){
+        cout << "Failed to open file." << endl;
+    }
+    else {
+        char line[500];
+        file.getline(line, 500); // trash the first line
+        while (file.getline(line, 500)) {
+            if (*line != NULL) {
+                DSVector<DSString> entries = DSString(line).parseLine(" "); //not sure if this syntax works
+                requests.push_back(entries);
+            }
+        }
+    }
+    file.close();
+
 }
 #endif //INC_22S_FLIGHT_PLANNER_FILEMANAGER_H

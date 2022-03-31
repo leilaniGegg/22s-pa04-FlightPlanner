@@ -36,11 +36,9 @@ int main(int argc, char** argv) {
         cout << endl;
         adjacencyList.display();
         DSLinkedList<Flight> itinerary;
-
+        DSVector<DSVector<DSString>> requests;
+        fileIO.readRequestedFlights(argv[2], requests);
 
    //}
     return 0;
 }
-
-
-//from input file, make the adjaceny list
