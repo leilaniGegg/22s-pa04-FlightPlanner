@@ -8,31 +8,39 @@ City::City(){
 
 }
 City::City(const DSString& endCity, int cost, int time, const DSString& airline){
-    cout << "making destination city" << endl;
     this->endCity = endCity;
-    this->airline = airline;
-    this->cost = cost;
-    this->time = time;
+    //this->airline = airline;
+    airlines.push_back(airline);
+    //this->cost = cost;
+    costs.push_back(cost);
+    //this->time = time;
+    times.push_back(time);
 }
 City::~City(){
 }
 
 City::City(const City& temp){
     this->endCity = temp.endCity;
-    this->airline = temp.airline;
-    this->cost = temp.cost;
-    this->time = temp.time;
+    //this->airline = temp.airline;
+    this->airlines = temp.airlines;
+    //this->cost = temp.cost;
+    this->costs = temp.costs;
+    //this->time = temp.time;
+    this->times = temp.times;
 }
 
 City& City::operator=(const City& temp){
     this->endCity = temp.endCity;
-    this->airline = temp.airline;
-    this->cost = temp.cost;
-    this->time = temp.time;
+    //this->airline = temp.airline;
+    this->airlines = temp.airlines;
+    //this->cost = temp.cost;
+    this->costs = temp.costs;
+    //this->time = temp.time;
+    this->times = temp.times;
     return *this;
 }
 
-bool City::operator==(City& temp){
+bool City::operator==(const City& temp){
     /*if(this->endCity == temp.getEndCity() && this->airline == temp.getAirline() &&
        this->cost == temp.getCost() && this->time == temp.getTime()){
         return true;
@@ -42,17 +50,17 @@ bool City::operator==(City& temp){
     }
     return false;
 }
-DSString City::getEndCity(){
+DSString City::getEndCity()const{
     return endCity;
 }
-DSString City::getAirline(){
-    return airline;
+DSVector<DSString>& City::getAirline(){
+    return airlines;
 }
-int City::getCost()const{
-    return cost;
+DSVector<int>& City::getCost(){
+    return costs;
 }
-int City::getTime()const{
-    return time;
+DSVector<int>& City::getTime(){
+    return times;
 }
 
 ostream& operator<<(ostream& output, const City& temp){

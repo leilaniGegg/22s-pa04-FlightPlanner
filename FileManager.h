@@ -11,7 +11,7 @@
 
 class FileManager{
 public:
-    void readFlightData(const DSString& filename, DSLinkedList<OriginCity>& adjList);
+    void readFlightData(const DSString& filename, DSLinkedList<OriginCity>& adjList); //basically make adjacency list
 };
 
 void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCity>& adjList){
@@ -26,39 +26,60 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
         while(file.getline(line, 500)) {
             if(*line != NULL) {
                 DSString newLine(line);
+                /// format = {[origin] , [end], [cost], [time], [airline]}
                 DSVector<DSString> temp = newLine.parseLine(" ");
-                temp.displayComma();
-                //OriginCity origin(temp.at(0)); //create origin city with first word from each line
+                /**
+                 * These are the flight information from the input file
+                 * temp.at(0) = origin city
+                 * temp.at(1) = end city
+                 * temp.at(2) = cost
+                 * temp.at(3) = time
+                 * temp.at(4) = airline
+                 */
+                ///If the first city listed is already in adjacent list, add its ending city to destination list
                 if(adjList.exists(temp.at(0))) {
-                    cout << temp.at(0) << "already exists in adjlist" << endl;
                     City dest(temp.at(1), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
-                    cout << "destination city added: " <<  dest << endl;
-                    adjList.find(temp.at(0)).destinations.push_back(dest);
+                    if(adjList.find(temp.at(0)).destinations.exists(dest)){
+                        adjList.find(temp.at(0)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                    }
+                    else {
+                        adjList.find(temp.at(0)).destinations.push_back(dest);
+                    }
 
                 }
+                ///if not, then add city to adjacency list and add its ending city to destination list
                 else{
                     OriginCity origin(temp.at(0)); //create origin city since its not already in adjlist
                     adjList.push_back(origin);
-                    cout << "Adding " << origin.getOrigin() << " to adjlist" << endl;
                     City dest(temp.at(1), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
-                    cout << "destination city added: " << dest << endl;
-                    adjList.find(origin).destinations.push_back(dest);
+                    if(adjList.find(temp.at(0)).destinations.exists(dest)){
+                        adjList.find(temp.at(0)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                    }
+                    else {
+                        adjList.find(origin).destinations.push_back(dest);
+                    }
                 }
                 //if the end city is in the adjlist as an origin city
                 if(adjList.exists(temp.at(1))){
-                    cout << temp.at(1) << " (end city) already exists in adjlist" << endl;
                     City dest(temp.at(0), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
-                    cout << "destination city added: " << dest << endl;
-                    adjList.find(temp.at(1)).destinations.push_back(dest);
+                    if(adjList.find(temp.at(1)).destinations.exists(dest)){
+                        adjList.find(temp.at(1)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                    }
+                    else {
+                        adjList.find(temp.at(1)).destinations.push_back(dest);
+                    }
 
                 }
                 else{
                     OriginCity origin(temp.at(1));
                     adjList.push_back(origin);
-                    cout << "Adding " << temp.at(1) << " to adjlist" << endl;
                     City dest(temp.at(0), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
-                    cout << "destination city added: " << dest << endl;
-                    adjList.find(origin).destinations.push_back(dest);
+                    if(adjList.find(temp.at(1)).destinations.exists(dest)){
+                        adjList.find(temp.at(1)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                    }
+                    else {
+                        adjList.find(origin).destinations.push_back(dest);
+                    }
 
                 }
             }

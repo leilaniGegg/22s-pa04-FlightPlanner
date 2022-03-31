@@ -29,27 +29,13 @@ int main(int argc, char** argv) {
         //runCatchTests();
     //}
     //else {
-        Flight A;
-        Flight B("Dallas", "Austin", "American", 34, 5);
-        Flight C("ugly", "idiot", "cat", 50, 13);
-        DSLinkedList<Flight> test;
-        test.push_back(A);
-        test.push_back(B);
-        test.push_back(C);
-        cout << test.find(C) << endl;
-        DSStack<DSString> testStack;
-        testStack.push("Cloud");
-        testStack.push("Sun");
-        testStack.push("Rain");
-        cout << testStack.peek() << endl;
-        testStack.pop();
-        cout << testStack.peek() << endl;
 
         FileManager fileIO;
         DSLinkedList<OriginCity> adjacencyList;
         fileIO.readFlightData(argv[1], adjacencyList);
         cout << endl;
         adjacencyList.display();
+        DSLinkedList<Flight> itinerary;
 
 
    //}

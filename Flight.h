@@ -18,7 +18,7 @@ private:
 
 public:
     Flight();
-    Flight(DSString s, DSString e, DSString a, int c, int t);
+    Flight(const DSString& s, const DSString& e, const DSString& a, int c, int t);
     ~Flight();
     Flight(const Flight&);
     Flight& operator=(const Flight&);

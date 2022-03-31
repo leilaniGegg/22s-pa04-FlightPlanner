@@ -5,14 +5,10 @@
 #include "Flight.h"
 
 Flight::Flight(){
-    startCity = "baka";
-    endCity = "chan";
-    airline = "nani";
-    cost = 69;
-    time = 420;
+
 }
 
-Flight::Flight(DSString s, DSString e, DSString a, int c, int t){
+Flight::Flight(const DSString& s, const DSString& e, const DSString& a, int c, int t){
     startCity = s;
     endCity = e;
     airline = a;
