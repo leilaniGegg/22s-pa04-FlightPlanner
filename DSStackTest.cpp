@@ -5,6 +5,7 @@
 #include "catch.hpp"
 #include "DSStack.h"
 #include "DSString.h"
+#include "DSLinkedList.h"
 
 TEST_CASE("DSSTACK TESTS", "[stack]"){
     DSStack<DSString> stack;
