@@ -21,6 +21,7 @@
 #include "DSString.h"
 #include "OriginCity.h"
 #include "FileManager.h"
+#include "FlightPlanner.h"
 
 using namespace std;
 
@@ -38,6 +39,8 @@ int main(int argc, char** argv) {
         DSLinkedList<Flight> itinerary;
         DSVector<DSVector<DSString>> requests;
         fileIO.readRequestedFlights(argv[2], requests);
+        FlightPlanner plans;
+        plans.makeItinerary(requests, adjacencyList);
 
    //}
     return 0;

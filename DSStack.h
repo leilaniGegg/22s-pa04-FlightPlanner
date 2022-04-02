@@ -14,9 +14,11 @@ private:
 
 public:
     DSStack();
+    DSStack(const DSStack& temp);
     ~DSStack();
-    T& push(T element); // add elements to top of the stack/end of linked list
-    T pop();           //remove the top of the stack/end of linked list
+    DSStack& operator=(const DSStack<T>& temp);
+    void push(T element); // add elements to top of the stack/end of linked list
+    void pop();           //remove the top of the stack/end of linked list
     T& peek()const;     //look at the top of the stack/end of linked list
     bool isEmpty();
 };
@@ -29,13 +31,24 @@ DSStack<T>::~DSStack(){
 }
 
 template <typename T>
-T& DSStack<T>::push(T element){
+DSStack<T>& DSStack<T>::operator=(const DSStack<T>& temp){
+    this->list = temp.list;
+    return *this;
+}
+
+template <typename T>
+DSStack<T>::DSStack(const DSStack& temp){
+    this->list = temp.list;
+}
+
+template <typename T>
+void DSStack<T>::push(T element){
     list.push_back(element);
 }
 
 template <typename T>
-T DSStack<T>::pop(){
-    return list.pop_back();
+void DSStack<T>::pop(){
+    list.pop_back();
 }
 
 template <typename T>
@@ -45,6 +58,9 @@ T& DSStack<T>::peek()const{
 
 template <typename T>
 bool DSStack<T>::isEmpty(){
-    list.getSize();
+    if(list.getSize() == 0){
+        return true;
+    }
+    return false;
 }
 #endif //INC_22S_FLIGHT_PLANNER_DSSTACK_H

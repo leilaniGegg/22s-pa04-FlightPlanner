@@ -31,8 +31,8 @@ public:
     DSLinkedList& operator=(const DSLinkedList<T>& list);
     void push_back(T element);
     void push_front(T element);
-    T pop_front();
-    T pop_back();
+    void pop_front();
+    void pop_back();
     T& peek_front()const;
     T& peek_back()const;
     void insert(T element, int index);
@@ -92,8 +92,9 @@ DSLinkedList<T>::DSLinkedList(const DSLinkedList<T>& temp){
 template <typename T>
 DSLinkedList<T>::~DSLinkedList(){
     Node<T>* temp = head;
+    Node<T>* next;
     while(temp != nullptr ) {
-        Node<T>* next = temp->next;
+        next = temp->next;
         delete temp;
         temp = next;
     }
@@ -192,14 +193,17 @@ template <typename T>
 void DSLinkedList<T>::push_back(T element){
     Node<T>* newNode = new Node<T>;
     newNode->data = element;
-    newNode->prev = tail;
-    newNode->next = nullptr;
+
     if (head == nullptr) {
+        newNode->prev = nullptr;
+        newNode->next = nullptr;
         head = newNode;
         tail = newNode;
         itr = head;
     } else {
         tail->next = newNode;
+        newNode->prev = tail;
+        newNode->next = nullptr;
         tail = newNode;
     }
     size++;
@@ -209,48 +213,48 @@ template<typename T>
 void DSLinkedList<T>::push_front(T element){
     Node<T>* newNode = new Node<T>();
     newNode->data = element;
-    newNode->prev = nullptr;
-    newNode->next = head;
     if (head == nullptr) {
+        newNode->prev = nullptr;
+        newNode->next = nullptr;
         head = newNode;
         tail = newNode;
         itr = head;
     } else {
         head->prev = newNode;
+        newNode->next = head;
+        newNode->prev = nullptr;
         head = newNode;
     }
-
     size++;
 }
 
 template <typename T>
-T DSLinkedList<T>::pop_front(){
-    if(size == 0){
+void DSLinkedList<T>::pop_front(){
+    if(head == nullptr){
         cout << "LinkedList is empty" << endl;
     }
     else{
-        Node<T>* front = new Node<T>;
-        T removedValue = head->data;
+        Node<T>* front = head;
+        //T removedValue = front->data;
         head = head->next;
         delete front;
         size--;
-        return removedValue;
+        //return removedValue;
     }
-
 }
 
 template <typename T>
-T DSLinkedList<T>::pop_back(){
-    if(size == 0){
+void DSLinkedList<T>::pop_back(){
+    if(tail == nullptr){
         cout << "LinkedList is empty" << endl;
     }
     else{
-        Node<T>* back = new Node<T>;
-        T removedValue = tail->data;
+        Node<T>* back = tail;
+        //T removedValue = back->data;
         tail = tail->prev;
-        delete back;
+        //delete back;
         size--;
-        return removedValue;
+        //return removedValue;
     }
 }
 
@@ -302,6 +306,7 @@ void DSLinkedList<T>::display(){
         cout << this->getCurr()->data << endl;
         this->getNext();
     }
+    this->resetIteratorFront();
 }
 
 #endif //INC_22S_FLIGHT_PLANNER_DSLINKEDLIST_H

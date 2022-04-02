@@ -13,12 +13,14 @@
 #include "DSStack.h"
 
 class FlightPlanner{
+private:
     DSVector<DSLinkedList<Flight>> itinerary;
 
-
+public:
     void makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList);
     //goals is the start, end, T or C
-    DSLinkedList<Flight> calculatePaths(DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
-    bool onStack (DSStack<DSString> stack, DSString element);
+    DSLinkedList<Flight> calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
+    bool onStack (DSStack<DSString> stack, const DSString& element);
+    //DSLinkedList<Flight> storePath(Stack)
 };
 #endif //INC_22S_FLIGHT_PLANNER_FLIGHTPLANNER_H

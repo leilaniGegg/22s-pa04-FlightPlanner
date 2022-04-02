@@ -5,7 +5,7 @@
 #include "OriginCity.h"
 
 OriginCity::OriginCity(){
-
+    destinations.resetIteratorFront();
 }
 
 OriginCity::OriginCity(const DSString& temp){
@@ -21,6 +21,7 @@ bool OriginCity::operator==(const OriginCity& temp){
 
 OriginCity& OriginCity::operator=(const OriginCity& temp){
     this->origin = temp.getOrigin();
+    this->destinations = temp.destinations;
     return *this;
 }
 

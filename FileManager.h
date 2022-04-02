@@ -46,7 +46,7 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     else {
                         adjList.find(temp.at(0)).destinations.push_back(dest);
                     }
-
+                    adjList.find(temp.at(0)).destinations.resetIteratorFront();
                 }
                 ///if not, then add city to adjacency list and add its ending city to destination list
                 else{
@@ -59,8 +59,9 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     else {
                         adjList.find(origin).destinations.push_back(dest);
                     }
+                    adjList.find(temp.at(0)).destinations.resetIteratorFront();
                 }
-                //if the end city is in the adjlist as an origin city
+                ///if the end city is in the adjlist as an origin city
                 if(adjList.exists(temp.at(1))){
                     City dest(temp.at(0), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
                     if(adjList.find(temp.at(1)).destinations.exists(dest)){
@@ -69,7 +70,7 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     else {
                         adjList.find(temp.at(1)).destinations.push_back(dest);
                     }
-
+                    adjList.find(temp.at(1)).destinations.resetIteratorFront();
                 }
                 else{
                     OriginCity origin(temp.at(1));
@@ -81,7 +82,7 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     else {
                         adjList.find(origin).destinations.push_back(dest);
                     }
-
+                    adjList.find(temp.at(1)).destinations.resetIteratorFront();
                 }
             }
         }

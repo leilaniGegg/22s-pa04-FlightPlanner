@@ -5,7 +5,7 @@
 #include "DSString.h"
 #include "DSLinkedlist.h"
 
-TEST_CASE("DSLINKEDlist TESTS", "[list1]"){
+TEST_CASE("DSLINKEDLIST TESTS", "[list]"){
     DSLinkedList<DSString> list1;
     list1.push_back("Dallas");
     list1.push_back("Austin");
