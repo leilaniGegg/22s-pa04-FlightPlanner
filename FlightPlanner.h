@@ -17,10 +17,13 @@ private:
     DSVector<DSLinkedList<Flight>> itinerary;
 
 public:
-    void makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList);
+    void makeItinerary(const DSVector<DSVector<DSString>>& req, DSVector<OriginCity>& adjList);
     //goals is the start, end, T or C
-    DSLinkedList<Flight> calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
+    DSVector<DSStack<Flight>> calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
     bool onStack (DSStack<DSString> stack, const DSString& element);
+    DSVector<DSStack<DSString>> backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList);
+    DSVector<DSStack<Flight>> routing(const DSVector<DSStack<DSString>>& paths);
+    DSVector<DSStack<Flight>> optimize(const DSVector<DSStack<Flight>>& routes, const DSString& condition);
     //DSLinkedList<Flight> storePath(Stack)
 };
 #endif //INC_22S_FLIGHT_PLANNER_FLIGHTPLANNER_H

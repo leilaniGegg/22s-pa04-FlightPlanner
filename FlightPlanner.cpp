@@ -4,14 +4,27 @@
 
 #include "FlightPlanner.h"
 
-void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList){
+void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSVector<OriginCity>& adjList){
     for(int i = 0; i < req.getSize(); i++){
-        itinerary.push_back(calculatePaths(req.at(i), adjList));
+        //itinerary.push_back(calculatePaths(req.at(i), adjList));
     }
 }
 
-DSLinkedList<Flight> FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
-    cout << "in here" << endl;
+DSVector<DSStack<DSString>> FlightPlanner::backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList){
+    DSStack<DSString> stack;
+    stack.push(begin);
+    DSVector<DSStack<DSString>> paths;
+    while(!stack.isEmpty()){
+
+    }
+}
+
+
+DSVector<DSStack<Flight>> FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
+    DSVector<DSStack<DSString>> paths = backtrack(goals.at(0), goals.at(1), adjList);
+    DSVector<DSStack<Flight>> routes = routing(paths);
+    return optimize(routes, goals.at(2));
+    /*cout << "in here" << endl;
     DSString start(goals.at(0));
     DSString end(goals.at(1));
     DSString condition(goals.at(2)); //T for time, or C for cost
@@ -58,7 +71,7 @@ DSLinkedList<Flight> FlightPlanner::calculatePaths(const DSVector<DSString>& goa
             }
         }
         cout << "exiting second else" << endl;
-    }
+    } */
 }
 
 bool FlightPlanner::onStack (DSStack<DSString> stack, const DSString& element){ //get rid of & for second param

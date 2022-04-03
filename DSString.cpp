@@ -28,7 +28,7 @@ DSString::DSString(const DSString& input){
 }
 DSString::~DSString(){
     if(word != nullptr){
-    delete[] word; //is this bracket or no?
+        delete[] word; //is this bracket or no?
     }
 }
 

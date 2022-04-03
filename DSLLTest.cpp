@@ -3,7 +3,7 @@
 //
 #include "catch.hpp"
 #include "DSString.h"
-#include "DSLinkedlist.h"
+#include "DSLinkedList.h"
 
 TEST_CASE("DSLINKEDLIST TESTS", "[list]"){
     DSLinkedList<DSString> list1;

@@ -91,13 +91,15 @@ DSLinkedList<T>::DSLinkedList(const DSLinkedList<T>& temp){
 
 template <typename T>
 DSLinkedList<T>::~DSLinkedList(){
+    this->itr = nullptr;
     Node<T>* temp = head;
     Node<T>* next;
-    while(temp != nullptr ) {
+    while(temp != nullptr ){
         next = temp->next;
         delete temp;
         temp = next;
     }
+    size = 0;
 }
 
 template<typename T>
@@ -248,13 +250,17 @@ void DSLinkedList<T>::pop_back(){
     if(tail == nullptr){
         cout << "LinkedList is empty" << endl;
     }
+    else if(head == nullptr){
+        Node<T>* back = tail;
+        head = nullptr;
+        tail = nullptr;
+        delete back;
+    }
     else{
         Node<T>* back = tail;
-        //T removedValue = back->data;
-        tail = tail->prev;
-        //delete back;
+        tail = back->prev;
+        delete back;
         size--;
-        //return removedValue;
     }
 }
 
