@@ -31,5 +31,6 @@ public:
     friend ostream& operator<< (ostream&, const Flight&);
 
 
+
 };
 #endif //INC_22S_FLIGHT_PLANNER_FLIGHT_H

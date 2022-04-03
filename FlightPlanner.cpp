@@ -4,31 +4,68 @@
 
 #include "FlightPlanner.h"
 
-void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSVector<OriginCity>& adjList){
-    for(int i = 0; i < req.getSize(); i++){
-        //itinerary.push_back(calculatePaths(req.at(i), adjList));
-    }
+void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList){
+    //for(int i = 0; i < req.getSize(); i++){
+
+        calculatePaths(req.at(0), adjList);
+    //}
 }
 
-DSVector<DSStack<DSString>> FlightPlanner::backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList){
-    DSStack<DSString> stack;
+DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList){
+    DSStack<OriginCity> stack;
+    OriginCity start(adjList.find(begin));
+    OriginCity dest(adjList.find(end));
     stack.push(begin);
-    DSVector<DSStack<DSString>> paths;
+    DSVector<DSStack<OriginCity>> paths;
+    adjList.resetIteratorFront();
     while(!stack.isEmpty()){
+        if(stack.peek() == end){ //if the stack top is the destination
+            //store the path and pop the top of stack
+            paths.push_back(stack);
+            stack.pop();
+        }
+        else{
+            cout << "in else" << endl;
+            //might need to add code to reset itr in destinations list
 
+            //for connection in stack.top, is the connection null
+            if(adjList.find(stack.peek()).destinations.getCurr() == nullptr){
+                cout << "in second if" << endl;
+                adjList.find(stack.peek()).destinations.resetIteratorFront();
+                cout << "HERE" << endl;
+                stack.pop();
+                cout << "after stack.pop" << endl;
+            }
+             //is the connection on the stack?
+            if(onStack(stack, adjList.find(stack.peek()).destinations.getCurr()->data)){
+                cout << "in third if" << endl;
+                //move iterator and continue
+                adjList.find(stack.peek()).destinations.getNext();
+                continue;
+            }
+            else{
+                //push connection, move iterator
+                cout << "in last else" << endl;
+                stack.push(adjList.find(adjList.find(stack.peek()).destinations.getCurr()->data));
+                adjList.find(stack.peek()).destinations.getNext();
+                continue;
+            }
+        }
+        cout << "exiting second else" << endl;
     }
+    return paths;
 }
 
 
 DSVector<DSStack<Flight>> FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
-    DSVector<DSStack<DSString>> paths = backtrack(goals.at(0), goals.at(1), adjList);
-    DSVector<DSStack<Flight>> routes = routing(paths);
-    return optimize(routes, goals.at(2));
+    DSVector<DSStack<OriginCity>> paths = backtrack(goals.at(0), goals.at(1), adjList);
+    //DSVector<DSStack<Flight>> routes = routing(paths);
+    //return optimize(routes, goals.at(2));
     /*cout << "in here" << endl;
-    DSString start(goals.at(0));
-    DSString end(goals.at(1));
-    DSString condition(goals.at(2)); //T for time, or C for cost
-    DSStack<DSString> stack;
+    OriginCity start(*adjlist.find(goals.at(0)));
+    OriginCity end(*adjlist.find(goals.at(1)));
+    OriginCity condition(*adjlist.find(goals.at(2))); //T for time, or C for cost
+    DSStack<OriginCity> stack;
     cout <<"mmade stack " << endl;
     adjList.resetIteratorFront();
     cout << "reset iterator" << endl;
@@ -74,9 +111,9 @@ DSVector<DSStack<Flight>> FlightPlanner::calculatePaths(const DSVector<DSString>
     } */
 }
 
-bool FlightPlanner::onStack (DSStack<DSString> stack, const DSString& element){ //get rid of & for second param
+bool FlightPlanner::onStack (DSStack<OriginCity> stack, const City& element){ //get rid of & for second param
     cout << "in onStack" << endl;
-    DSStack<DSString> tempStack;
+    DSStack<OriginCity> tempStack;
     //tempStack.push(stack.pop());
     while(!stack.isEmpty()) {
         cout << "in while " << endl;

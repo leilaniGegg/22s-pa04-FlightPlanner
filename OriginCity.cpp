@@ -12,8 +12,19 @@ OriginCity::OriginCity(const DSString& temp){
     origin = temp;
 }
 
+OriginCity::OriginCity(const City& temp){
+    origin = temp.getEndCity();
+}
+
 bool OriginCity::operator==(const OriginCity& temp){
     if(this->origin == temp.getOrigin()){
+        return true;
+    }
+    return false;
+}
+
+bool OriginCity::operator==(const City& temp){
+    if(this->origin == temp.getEndCity()){
         return true;
     }
     return false;

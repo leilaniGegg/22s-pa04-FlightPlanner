@@ -15,7 +15,9 @@ public:
     DSLinkedList<City> destinations;
     OriginCity();
     OriginCity(const DSString&);
+    OriginCity(const City&);
     bool operator==(const OriginCity& temp);
+    bool operator==(const City& temp);
     OriginCity& operator=(const OriginCity& temp);
     DSString getOrigin()const;
     friend ostream& operator<<(ostream& output, OriginCity& temp);
