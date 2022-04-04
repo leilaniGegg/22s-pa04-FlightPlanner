@@ -35,9 +35,8 @@ TEST_CASE("DSLINKEDLIST TESTS", "[list]"){
         list2.push_back("Rat");
         REQUIRE((list2.peek_front() == "Lizard"));
         REQUIRE((list2.peek_back() == "Rat"));
-
-
     }
+
     SECTION("POP"){
         list1.pop_back();
         list1.pop_front();

@@ -15,40 +15,44 @@ DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, con
     DSStack<OriginCity> stack;
     OriginCity start(adjList.find(begin));
     OriginCity dest(adjList.find(end));
-    stack.push(begin);
+    stack.push(start);
     DSVector<DSStack<OriginCity>> paths;
     adjList.resetIteratorFront();
     while(!stack.isEmpty()){
-        if(stack.peek() == end){ //if the stack top is the destination
+        if(stack.peek() == dest){ //if the stack top is the destination
             //store the path and pop the top of stack
             paths.push_back(stack);
             stack.pop();
         }
         else{
             cout << "in else" << endl;
-            //might need to add code to reset itr in destinations list
 
             //for connection in stack.top, is the connection null
             if(adjList.find(stack.peek()).destinations.getCurr() == nullptr){
                 cout << "in second if" << endl;
+                OriginCity temp = stack.peek();
                 adjList.find(stack.peek()).destinations.resetIteratorFront();
-                cout << "HERE" << endl;
                 stack.pop();
+
+                cout << "HERE" << endl;
+
                 cout << "after stack.pop" << endl;
             }
              //is the connection on the stack?
-            if(onStack(stack, adjList.find(stack.peek()).destinations.getCurr()->data)){
-                cout << "in third if" << endl;
-                //move iterator and continue
-                adjList.find(stack.peek()).destinations.getNext();
-                continue;
-            }
-            else{
-                //push connection, move iterator
-                cout << "in last else" << endl;
-                stack.push(adjList.find(adjList.find(stack.peek()).destinations.getCurr()->data));
-                adjList.find(stack.peek()).destinations.getNext();
-                continue;
+             else {
+                if (onStack(stack, adjList.find(stack.peek()).destinations.getCurr()->data)) {
+                    cout << "in third if" << endl;
+                    //move iterator and continue
+                    adjList.find(stack.peek()).destinations.getNext();
+                    //continue;
+                } else {
+                    //push connection, move iterator
+                    cout << "in last else" << endl;
+                    OriginCity temp(stack.peek());
+                    stack.push(adjList.find(adjList.find(stack.peek()).destinations.getCurr()->data));
+                    adjList.find(temp).destinations.getNext();
+                    //continue;
+                }
             }
         }
         cout << "exiting second else" << endl;
@@ -57,7 +61,7 @@ DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, con
 }
 
 
-DSVector<DSStack<Flight>> FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
+void FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
     DSVector<DSStack<OriginCity>> paths = backtrack(goals.at(0), goals.at(1), adjList);
     //DSVector<DSStack<Flight>> routes = routing(paths);
     //return optimize(routes, goals.at(2));
@@ -126,5 +130,4 @@ bool FlightPlanner::onStack (DSStack<OriginCity> stack, const City& element){ //
     }
     cout << "leaving onstack" << endl;
     return false;
-
 }

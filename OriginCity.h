@@ -14,6 +14,7 @@ private:
 public:
     DSLinkedList<City> destinations;
     OriginCity();
+    ~OriginCity();
     OriginCity(const DSString&);
     OriginCity(const City&);
     bool operator==(const OriginCity& temp);

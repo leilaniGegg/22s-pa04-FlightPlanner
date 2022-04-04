@@ -92,7 +92,7 @@ DSLinkedList<T>::DSLinkedList(const DSLinkedList<T>& temp){
 template <typename T>
 DSLinkedList<T>::~DSLinkedList(){
     this->itr = nullptr;
-    Node<T>* temp = head;
+    Node<T>* temp = this->head;
     Node<T>* next;
     while(temp != nullptr ){
         next = temp->next;
@@ -110,8 +110,9 @@ DSLinkedList<T>& DSLinkedList<T>::operator=(const DSLinkedList<T>& temp){
         return *this;
     }
     else {
-        head = nullptr;
-        tail = nullptr;
+        this->head = nullptr;         //comment these out
+        this->tail = nullptr;
+        size = temp.getSize();
         Node<T>* curr = temp.head;
         while (curr != nullptr) {
             Node<T> *newNode = new Node<T>;
@@ -126,7 +127,6 @@ DSLinkedList<T>& DSLinkedList<T>::operator=(const DSLinkedList<T>& temp){
                 this->tail->next = newNode;
                 this->tail = newNode;
             }
-            size++;
             curr = curr->next;
         }
     }
@@ -232,33 +232,41 @@ void DSLinkedList<T>::push_front(T element){
 
 template <typename T>
 void DSLinkedList<T>::pop_front(){
-    if(head == nullptr){
+    if(size == 0){
         cout << "LinkedList is empty" << endl;
+    }
+    else if(size == 1){
+        Node<T>* front = front;
+        head = nullptr;
+        tail = nullptr;
+        delete front;
+        size--;
     }
     else{
         Node<T>* front = head;
-        //T removedValue = front->data;
-        head = head->next;
+        head = front->next;
+        head->prev = nullptr;
         delete front;
         size--;
-        //return removedValue;
     }
 }
 
 template <typename T>
 void DSLinkedList<T>::pop_back(){
-    if(tail == nullptr){
+    if(size == 0){
         cout << "LinkedList is empty" << endl;
     }
-    else if(head == nullptr){
+    else if(size == 1){
         Node<T>* back = tail;
         head = nullptr;
         tail = nullptr;
         delete back;
+        size--;
     }
     else{
         Node<T>* back = tail;
         tail = back->prev;
+        tail->next = nullptr;
         delete back;
         size--;
     }

@@ -15,12 +15,12 @@
 
 class FlightPlanner{
 private:
-    DSVector<DSLinkedList<Flight>> itinerary;
+    //DSVector<DSLinkedList<Flight>> itinerary;
 
 public:
     void makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList);
     //goals is the start, end, T or C
-    DSVector<DSStack<Flight>> calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
+    void calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
     bool onStack (DSStack<OriginCity> stack, const City& element);
     DSVector<DSStack<OriginCity>> backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList);
     DSVector<DSStack<Flight>> routing(const DSVector<DSStack<OriginCity>>& paths);

@@ -16,6 +16,9 @@ OriginCity::OriginCity(const City& temp){
     origin = temp.getEndCity();
 }
 
+OriginCity::~OriginCity(){
+}
+
 bool OriginCity::operator==(const OriginCity& temp){
     if(this->origin == temp.getOrigin()){
         return true;
