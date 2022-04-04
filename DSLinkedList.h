@@ -49,6 +49,7 @@ public:
     void resetIteratorFront();
     void resetIteratorBack();
     void display();
+    //friend ostream& operator<<(ostream& output, DSLinkedList<T> temp);
 };
 
 template<typename T>
@@ -64,11 +65,11 @@ DSLinkedList<T>::DSLinkedList(const DSLinkedList<T>& temp){
     if(temp.head == nullptr){
         head = nullptr;
         tail = nullptr;
-        return;
     }
     else {
         head = nullptr;
         tail = nullptr;
+        size = temp.getSize();
         Node<T>* curr = temp.head;
         while (curr != nullptr) {
             Node<T> *newNode = new Node<T>;
@@ -83,7 +84,6 @@ DSLinkedList<T>::DSLinkedList(const DSLinkedList<T>& temp){
                 this->tail->next = newNode;
                 this->tail = newNode;
             }
-            size++;
             curr = curr->next;
         }
     }
@@ -322,6 +322,17 @@ void DSLinkedList<T>::display(){
     }
     this->resetIteratorFront();
 }
+
+/*template <typename T>
+ostream& operator<<(ostream& output, DSLinkedList<T> temp){
+    temp->resetIteratorFront();
+    while(temp->getCurr() != nullptr){
+        output << temp->getCurr()->data << endl;
+        temp->getNext();
+    }
+    temp->resetIteratorFront();
+    return output;
+}*/
 
 #endif //INC_22S_FLIGHT_PLANNER_DSLINKEDLIST_H
 

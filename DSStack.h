@@ -21,6 +21,9 @@ public:
     void pop();           //remove the top of the stack/end of linked list
     T& peek()const;     //look at the top of the stack/end of linked list
     bool isEmpty();
+    DSLinkedList<T>& getList();
+    //friend ostream& operator<<(ostream& output, DSStack<T>& temp);
+
 };
 template <typename T>
 DSStack<T>::DSStack(){
@@ -63,4 +66,15 @@ bool DSStack<T>::isEmpty(){
     }
     return false;
 }
+
+template <typename T>
+DSLinkedList<T>& DSStack<T>::getList(){
+    return list;
+}
+
+/*template <typename T>
+ostream& operator<<(ostream& output, DSStack<T>& temp){
+    output << temp.getList << endl;
+    return output;
+}*/
 #endif //INC_22S_FLIGHT_PLANNER_DSSTACK_H
