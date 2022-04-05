@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
         DSVector<DSVector<DSString>> requests;
         fileIO.readRequestedFlights(argv[2], requests);
         FlightPlanner plans;
-        plans.makeItinerary(requests, adjacencyList);
+        plans.makeItinerary(requests, adjacencyList, fileIO);
 
    //}
     return 0;
