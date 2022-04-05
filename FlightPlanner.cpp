@@ -4,11 +4,46 @@
 
 #include "FlightPlanner.h"
 
-void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList){
-    for(int i = 0; i < req.getSize(); i++){
-        cout << "REQUEST #" << i+1 << endl;
-        calculatePaths(req.at(i), adjList);
+void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList, const DSString& filename){
+    ofstream file;
+    file.open(filename.c_str());
+    if(!file.is_open()){
+        cout << "Failed to open file" << endl;
     }
+    else {
+        for (int i = 0; i < req.getSize(); i++) {
+            cout << "REQUEST #" << i + 1 << endl;
+            writeToFile(file, req.at(i), calculatePaths(req.at(i), adjList), i+1);
+        }
+    }
+    file.close();
+}
+
+void FlightPlanner::writeToFile(ostream& file, DSVector<DSString> requests, DSVector<DSLinkedList<Flight>> optimizedRoutes, int currReq){
+        if(optimizedRoutes.getSize() == 0){
+            file << "No paths possible" << endl;
+        }
+        else {
+            if (requests.at(2) == "T") { //maybe change vector at function to not const
+                file << "Flight " << currReq << ": " << requests.at(0) << ", " << requests.at(1) << " (TIME)" << endl;
+                for (int i = 0; i < optimizedRoutes.getSize(); i++) {
+                    file << "  Itinerary " << i + 1 << ": " << endl;
+                    file << optimizedRoutes.at(i);
+                    file << "    " << "Totals for Itinerary " << i + 1 << ":  Time: "
+                         << getTotalTime(optimizedRoutes.at(i))
+                         << "  Cost:  " << getTotalCost(optimizedRoutes.at(i)) << endl;
+                }
+            } else {
+                file << "Flight " << currReq << ": " << requests.at(0) << ", " << requests.at(1) << " (COST)" << endl;
+                for (int i = 0; i < optimizedRoutes.getSize(); i++) {
+                    file << "  Itinerary " << i + 1 << ": " << endl;
+                    file << optimizedRoutes.at(i);
+                    file << "    " << "Totals for Itinerary " << i + 1 << ":  Time: "
+                         << getTotalTime(optimizedRoutes.at(i))
+                         << "  Cost:  " << getTotalCost(optimizedRoutes.at(i)) << endl;
+                }
+            }
+        }
 }
 
 DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList){
@@ -129,12 +164,12 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::optimize(DSVector<DSLinkedList<Fli
     return bestRoutes;
 }
 
-void FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
+DSVector<DSLinkedList<Flight>> FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
     DSVector<DSStack<OriginCity>> paths = backtrack(goals.at(0), goals.at(1), adjList);
     DSVector<DSLinkedList<Flight>> routes = routing(paths, goals.at(2));
     DSVector<DSLinkedList<Flight>> optimized = optimize(routes, goals.at(2));
 
-    cout << "routes" << endl;
+    cout << "Routes" << endl;
     routes.at(0).display();
     cout << "---------------" << endl;
     routes.at(1).display();
@@ -142,15 +177,25 @@ void FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList
     optimized.at(0).display();
     optimized.at(1).display();
 
+    return optimized;
 }
 
+//of a list of flights, calculate the total time, including the penality for layovers and airline changes
 int FlightPlanner::getTotalTime(DSLinkedList<Flight>& route){
     route.resetIteratorFront();
     int time = 0;
     while(route.getCurr() != nullptr){
+        DSString tempAirline = route.getCurr()->data.getAirline();
         time += route.getCurr()->data.getTime();
         route.getNext();
+        if(route.getCurr() == nullptr)break; //this seems redundant ik
+        //if two connecting fligts don't have the same airline
+        if(tempAirline != route.getCurr()->data.getAirline()){
+            time += 27;
+        }
+
     }
+    time += (route.getSize()-1) * 43;
     route.resetIteratorFront(); //not sure if needed
     return time;
 }
@@ -161,7 +206,9 @@ int FlightPlanner::getTotalCost(DSLinkedList<Flight>& route){
     while(route.getCurr() != nullptr){
         cost += route.getCurr()->data.getCost();
         route.getNext();
+
     }
+    cost += (route.getSize() - 1) * 23;
     route.resetIteratorFront();
     return cost;
 }

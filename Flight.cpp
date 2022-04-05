@@ -66,10 +66,13 @@ int Flight::getTime(){
 }
 
 ostream& operator<<(ostream& output, const Flight& temp){
-    output << "Starting City: " << temp.startCity << endl;
+    /*output << "Starting City: " << temp.startCity << endl;
     output << "Ending City: " << temp.endCity << endl;
     output << "Airline: " << temp.airline << endl;
     output << "Cost: $" << temp.cost << endl;
-    output << "Time: " << temp.time << endl;
+    output << "Time: " << temp.time << endl;*/
+    //its being weird and not printing the () around airline properly so im doing this
+    output << "    " <<temp.startCity << " -> " << temp.endCity << "  " << temp.airline;
+
     return output;
 }

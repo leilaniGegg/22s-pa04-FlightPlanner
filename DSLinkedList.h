@@ -323,16 +323,16 @@ void DSLinkedList<T>::display(){
     this->resetIteratorFront();
 }
 
-/*template <typename T>
+template <typename T>
 ostream& operator<<(ostream& output, DSLinkedList<T> temp){
-    temp->resetIteratorFront();
-    while(temp->getCurr() != nullptr){
-        output << temp->getCurr()->data << endl;
-        temp->getNext();
+    temp.resetIteratorFront();
+    while(temp.getCurr() != nullptr){
+        output << temp.getCurr()->data << endl;
+        temp.getNext();
     }
-    temp->resetIteratorFront();
+    temp.resetIteratorFront();
     return output;
-}*/
+}
 
 #endif //INC_22S_FLIGHT_PLANNER_DSLINKEDLIST_H
 
