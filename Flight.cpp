@@ -72,7 +72,7 @@ ostream& operator<<(ostream& output, const Flight& temp){
     output << "Cost: $" << temp.cost << endl;
     output << "Time: " << temp.time << endl;*/
     //its being weird and not printing the () around airline properly so im doing this
-    output << "    " <<temp.startCity << " -> " << temp.endCity << ":  " << temp.airline;
+    output << "    " <<temp.startCity << " -> " << temp.endCity << " :  " << temp.airline;
 
     return output;
 }

@@ -27,22 +27,20 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    //if(argc == 1) {
+    if(argc == 1) {
         runCatchTests();
-    //}
-    //else {
-    /*
+    }
+    else {
         FileManager fileIO;
         DSLinkedList<OriginCity> adjacencyList;
         fileIO.readFlightData(argv[1], adjacencyList);
-        cout << endl;
+        cout << "ADJACENCY LIST" << endl;
         adjacencyList.display();
         DSLinkedList<Flight> itinerary;
         DSVector<DSVector<DSString>> requests;
         fileIO.readRequestedFlights(argv[2], requests);
         FlightPlanner plans;
         plans.makeItinerary(requests, adjacencyList, argv[3]);
-*/
-   //}
+   }
     return 0;
 }

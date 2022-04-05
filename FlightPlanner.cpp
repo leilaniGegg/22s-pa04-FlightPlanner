@@ -5,6 +5,7 @@
 #include "FlightPlanner.h"
 
 void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList, const DSString& filename){
+    //loop through each request, and calculate its optimal paths, then write those to output file
     ofstream file;
     file.open(filename.c_str());
     if(!file.is_open()){
@@ -12,7 +13,6 @@ void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLin
     }
     else {
         for (int i = 0; i < req.getSize(); i++) {
-            cout << "REQUEST #" << i + 1 << endl;
             writeToFile(file, req.at(i), calculatePaths(req.at(i), adjList), i+1);
         }
     }
@@ -24,8 +24,8 @@ void FlightPlanner::writeToFile(ostream& file, DSVector<DSString> requests, DSVe
             file << "No paths possible" << endl;
         }
         else {
-            if (requests.at(2) == "T") { //maybe change vector at function to not const
-                file << "Flight " << currReq << ": " << requests.at(0) << ", " << requests.at(1) << " (TIME)" << endl;
+            if (requests.at(2)[0] == 'T') { //if the condition is to optimize time
+                file << "Flight " << currReq << ": " << requests.at(0) << ", " << requests.at(1) << " (Time)" << endl;
                 for (int i = 0; i < optimizedRoutes.getSize(); i++) {
                     file << "  Itinerary " << i + 1 << ": " << endl;
                     file << optimizedRoutes.at(i);
@@ -33,8 +33,8 @@ void FlightPlanner::writeToFile(ostream& file, DSVector<DSString> requests, DSVe
                          << getTotalTime(optimizedRoutes.at(i))
                          << "  Cost:  " << getTotalCost(optimizedRoutes.at(i)) << endl;
                 }
-            } else {
-                file << "Flight " << currReq << ": " << requests.at(0) << ", " << requests.at(1) << " (COST)" << endl;
+            } else { //if the condition is to optimize cost
+                file << "Flight " << currReq << ": " << requests.at(0) << ", " << requests.at(1) << " (Cost)" << endl;
                 for (int i = 0; i < optimizedRoutes.getSize(); i++) {
                     file << "  Itinerary " << i + 1 << ": " << endl;
                     file << optimizedRoutes.at(i);
@@ -47,6 +47,7 @@ void FlightPlanner::writeToFile(ostream& file, DSVector<DSString> requests, DSVe
 }
 
 DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList){
+    //find all possible paths from beginning to start, this is pretty much the psuedo code
     DSStack<OriginCity> stack;
     OriginCity start(adjList.find(begin));
     OriginCity dest(adjList.find(end));
@@ -70,13 +71,13 @@ DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, con
                 if (onStack(stack, adjList.find(stack.peek()).destinations.getCurr()->data)) {
                     //move iterator and continue
                     adjList.find(stack.peek()).destinations.getNext();
-                    //continue;
+                    //continue
                 } else {
                     //push connection, move iterator
                     OriginCity temp(stack.peek());
                     stack.push(adjList.find(adjList.find(stack.peek()).destinations.getCurr()->data));
                     adjList.find(temp).destinations.getNext();
-                    //continue;
+                    //continue
                 }
             }
         }
@@ -89,7 +90,6 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::routing(DSVector<DSStack<OriginCit
         DSVector<DSLinkedList<Flight>> routes;
         //loop through possible paths found (ex. Dallas->Austin->Houston and Dallas->Houston)
         for (int i = 0; i < paths.getSize(); i++) {
-            //1st iteration the path is Dallas->Austin->Houston
             DSLinkedList<OriginCity> path = paths.at(i).getList();
             DSLinkedList<Flight> tempRoute;
             path.resetIteratorFront();
@@ -97,16 +97,17 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::routing(DSVector<DSStack<OriginCit
             while (path.hasNext()) {
                 OriginCity startCity = path.getCurr()->data;
                 path.getNext();
-                City endCity(path.getCurr()->data.getOrigin(), 0, 0,
-                             "trash");// temp city object to find the end city in the start city's destinations
+                City endCity(path.getCurr()->data.getOrigin(), 0, 0,"trash");// temp city object to find the end city in the start city's destinations
                 int size = startCity.destinations.find(
                         endCity).getAirline().getSize(); //store the size of the airlines vector(same as cost and time vectors)
+                //set the first flight as the min temporarily
                 Flight min(startCity.getOrigin(), endCity.getEndCity(),
                            startCity.destinations.find(endCity).getAirline().at(0),
                            startCity.destinations.find(endCity).getCost().at(0),
                            startCity.destinations.find(endCity).getTime().at(0));
                 for (int j = 0; j < size; j++) {
                     if (condition == "T") {
+                        //if the current city is lower in time than the min, then set it as new min
                         if (startCity.destinations.find(endCity).getTime().at(j) < min.getTime()) {
                             Flight temp(startCity.getOrigin(), endCity.getEndCity(),
                                         startCity.destinations.find(endCity).getAirline().at(j),
@@ -116,6 +117,7 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::routing(DSVector<DSStack<OriginCit
                         }
                     }
                     else{
+                        //if the current city is lower in cost than the min, then set it as new cost
                         if (startCity.destinations.find(endCity).getCost().at(j) < min.getCost()) {
                             Flight temp(startCity.getOrigin(), endCity.getEndCity(),
                                         startCity.destinations.find(endCity).getAirline().at(j),
@@ -125,6 +127,8 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::routing(DSVector<DSStack<OriginCit
                         }
                     }
                 }
+                //only add the routes which are the lowest in time or cost (depending on condition)
+                //partially optimizing before the actual optimization step
                 tempRoute.push_back(min);
             }
             routes.push_back(tempRoute);
@@ -137,15 +141,17 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::optimize(DSVector<DSLinkedList<Fli
     DSVector<DSLinkedList<Flight>> bestRoutes; //lowest time/cost to highest
     int count = 0;
     while (count < 3) {
-        DSLinkedList<Flight> min = routes.at(0);
+        DSLinkedList<Flight> min = routes.at(0); //set first route of flights as the min
         int minIndex = 0;
         for (int i = 0; i < routes.getSize(); i++) {
             if (condition.c_str() == "T") {
+                //if current route is lower in time than the min, then set it as new min
                 if (getTotalTime(routes.at(i)) < getTotalTime(min)) {
                     min = routes.at(i);
                     minIndex = i;
                 }
             } else {
+                //if current route is lower in cost than the min, then set it as new min
                 if (getTotalCost(routes.at(i)) < getTotalCost(min)) {
                     min = routes.at(i);
                     minIndex = i;
@@ -153,12 +159,12 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::optimize(DSVector<DSLinkedList<Fli
             }
         }
         bestRoutes.push_back(min);
-        if(routes.getSize() > 1){
+        if(routes.getSize() > 1){ //do not want to remove index if its size is 1
             routes.removeAtIndex(minIndex);
         }
-        /*else if(routes.getSize() == 1){
+        else if(routes.getSize() == 1){
             break;
-        }*/
+        }
         count++;
     }
     return bestRoutes;
@@ -169,18 +175,10 @@ DSVector<DSLinkedList<Flight>> FlightPlanner::calculatePaths(const DSVector<DSSt
     DSVector<DSLinkedList<Flight>> routes = routing(paths, goals.at(2));
     DSVector<DSLinkedList<Flight>> optimized = optimize(routes, goals.at(2));
 
-    cout << "Routes" << endl;
-    routes.at(0).display();
-    cout << "---------------" << endl;
-    routes.at(1).display();
-    cout << "best route" << endl;
-    optimized.at(0).display();
-    optimized.at(1).display();
-
     return optimized;
 }
 
-//of a list of flights, calculate the total time, including the penality for layovers and airline changes
+//of a list of flights, calculate the total time, including the penalty for layovers and airline changes
 int FlightPlanner::getTotalTime(DSLinkedList<Flight>& route){
     route.resetIteratorFront();
     int time = 0;
@@ -213,7 +211,8 @@ int FlightPlanner::getTotalCost(DSLinkedList<Flight>& route){
     return cost;
 }
 
-bool FlightPlanner::onStack (DSStack<OriginCity> stack, const City& element){ //get rid of & for second param
+//check whether item is on the stack
+bool FlightPlanner::onStack (DSStack<OriginCity> stack, const City& element){
     DSStack<OriginCity> tempStack;
     while(!stack.isEmpty()) {
         tempStack.push(stack.peek());

@@ -78,5 +78,12 @@ TEST_CASE("DSLINKEDLIST TESTS", "[list]"){
         REQUIRE((listOflists.getSize() == 1));
         REQUIRE((listOflists.peek_front().peek_front() == "Dallas"));
     }
+    SECTION("EXISTS AND FIND METHOD"){
+        REQUIRE((list1.exists("Chicago")));
+        REQUIRE((list1.exists("Seattle")));
+        REQUIRE(!(list1.exists("El Paso")));
+        list1.find("Dallas") = "El Paso";
+        REQUIRE((list1.exists("El Paso")));
+    }
 
 }
