@@ -4,7 +4,7 @@
 
 #include "FlightPlanner.h"
 
-void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList){
+void FlightPlanner::makeItinerary(const DSVector<DSVector<DSString>>& req, DSLinkedList<OriginCity>& adjList, FileManager& fileIO){
     for(int i = 0; i < req.getSize(); i++){
         cout << "REQUEST #" << i+1 << endl;
         calculatePaths(req.at(i), adjList);
