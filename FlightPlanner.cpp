@@ -49,11 +49,65 @@ DSVector<DSStack<OriginCity>> FlightPlanner::backtrack(const DSString begin, con
     return paths;
 }
 
+DSVector<DSLinkedList<Flight>> FlightPlanner::routing(DSVector<DSStack<OriginCity>>& paths){
+        DSVector<DSLinkedList<Flight>> routes;
+        //loop through possible paths found (ex. Dallas->Austin->Houston and Dallas->Houston)
+        for(int i = 0; i < paths.getSize(); i++){
+            //1st iteration the path is Dallas->Austin->Houston
+            DSLinkedList<OriginCity> path = paths.at(i).getList();
+            DSLinkedList<Flight> tempRoute;
+            path.resetIteratorFront();
+
+            while(path.hasNext()){
+                OriginCity startCity = path.getCurr()->data;
+                path.getNext();
+                City endCity(path.getCurr()->data.getOrigin(), 0, 0, "trash");// temp city object to find the end city in the start city's destinations
+                int size = startCity.destinations.find(endCity).getAirline().getSize(); //store the size of the airlines vector(same as cost and time vectors)
+
+                for(int j = 0; j < size; j++){
+                    Flight temp(startCity.getOrigin(), endCity.getEndCity(), startCity.destinations.find(endCity).getAirline().at(j),
+                                startCity.destinations.find(endCity).getCost().at(j), startCity.destinations.find(endCity).getTime().at(j));
+                    tempRoute.push_back(temp);
+                }
+            }
+            routes.push_back(tempRoute);
+        }
+        return routes;
+}
+
+//This worked in routing function
+/*
+DSVector<DSLinkedList<Flight>> routes;
+//loop through possible paths found (ex. Dallas->Austin->Houston and Dallas->Houston)
+for(int i = 0; i < paths.getSize(); i++){
+//1st iteration the path is Dallas->Austin->Houston
+DSLinkedList<OriginCity> path = paths.at(i).getList();
+DSLinkedList<Flight> tempRoute;
+path.resetIteratorFront();
+
+while(path.hasNext()){
+OriginCity startCity = path.getCurr()->data;
+path.getNext();
+City endCity(path.getCurr()->data.getOrigin(), 0, 0, "trash");// temp city object to find the end city in the start city's destinations
+int size = startCity.destinations.find(endCity).getAirline().getSize(); //store the size of the airlines vector(same as cost and time vectors)
+for(int j = 0; j < size; j++){
+Flight temp(startCity.getOrigin(), endCity.getEndCity(), startCity.destinations.find(endCity).getAirline().at(j),
+            startCity.destinations.find(endCity).getCost().at(j), startCity.destinations.find(endCity).getTime().at(j));
+tempRoute.push_back(temp);
+}
+}
+routes.push_back(tempRoute);
+}
+return routes; */
+
 
 void FlightPlanner::calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList){
     DSVector<DSStack<OriginCity>> paths = backtrack(goals.at(0), goals.at(1), adjList);
-    paths.at(0).getList().display();
-    paths.at(1).getList().display();
+    DSVector<DSLinkedList<Flight>> routes = routing(paths);
+    routes.at(0).display();
+    cout << "---------------" << endl;
+    routes.at(1).display();
+
 
 }
 

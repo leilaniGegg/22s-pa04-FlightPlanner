@@ -42,6 +42,8 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     City dest(temp.at(1), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
                     if(adjList.find(temp.at(0)).destinations.exists(dest)){
                         adjList.find(temp.at(0)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                        adjList.find(temp.at(0)).destinations.find(dest).getTime().push_back(atoi(temp.at(3).c_str())); //not sure about these two lines
+                        adjList.find(temp.at(0)).destinations.find(dest).getCost().push_back(atoi(temp.at(2).c_str()));
                     }
                     else {
                         adjList.find(temp.at(0)).destinations.push_back(dest);
@@ -55,6 +57,9 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     City dest(temp.at(1), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
                     if(adjList.find(temp.at(0)).destinations.exists(dest)){
                         adjList.find(temp.at(0)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                        adjList.find(temp.at(0)).destinations.find(dest).getTime().push_back(atoi(temp.at(3).c_str()));
+                        adjList.find(temp.at(0)).destinations.find(dest).getCost().push_back(atoi(temp.at(2).c_str()));
+
                     }
                     else {
                         adjList.find(origin).destinations.push_back(dest);
@@ -66,6 +71,8 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     City dest(temp.at(0), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
                     if(adjList.find(temp.at(1)).destinations.exists(dest)){
                         adjList.find(temp.at(1)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                        adjList.find(temp.at(1)).destinations.find(dest).getTime().push_back(atoi(temp.at(3).c_str()));
+                        adjList.find(temp.at(1)).destinations.find(dest).getCost().push_back(atoi(temp.at(2).c_str()));
                     }
                     else {
                         adjList.find(temp.at(1)).destinations.push_back(dest);
@@ -78,6 +85,8 @@ void FileManager::readFlightData(const DSString& filename, DSLinkedList<OriginCi
                     City dest(temp.at(0), atoi(temp.at(2).c_str()), atoi(temp.at(3).c_str()), temp.at(4));
                     if(adjList.find(temp.at(1)).destinations.exists(dest)){
                         adjList.find(temp.at(1)).destinations.find(dest).getAirline().push_back(temp.at(4));
+                        adjList.find(temp.at(1)).destinations.find(dest).getTime().push_back(atoi(temp.at(3).c_str()));
+                        adjList.find(temp.at(1)).destinations.find(dest).getCost().push_back(atoi(temp.at(2).c_str()));
                     }
                     else {
                         adjList.find(origin).destinations.push_back(dest);

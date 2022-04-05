@@ -23,6 +23,7 @@ public:
     City(const City&);
     City& operator=(const City&);
     bool operator==(const City&);
+    //bool operator==(const DSString&);
     DSString getEndCity()const;
     DSVector<DSString>& getAirline();
     DSVector<int>& getCost();

@@ -22,6 +22,7 @@
 #include "OriginCity.h"
 #include "FileManager.h"
 #include "FlightPlanner.h"
+#include "City.h"
 
 using namespace std;
 

@@ -23,7 +23,7 @@ public:
     void calculatePaths(const DSVector<DSString>& goals, DSLinkedList<OriginCity>& adjList);
     bool onStack (DSStack<OriginCity> stack, const City& element);
     DSVector<DSStack<OriginCity>> backtrack(const DSString begin, const DSString end, DSLinkedList<OriginCity>& adjList);
-    DSVector<DSStack<Flight>> routing(const DSVector<DSStack<OriginCity>>& paths);
+    DSVector<DSLinkedList<Flight>> routing(DSVector<DSStack<OriginCity>>& paths);
     DSVector<DSStack<Flight>> optimize(const DSVector<DSStack<Flight>>& routes, const DSString& condition);
     //DSLinkedList<Flight> storePath(Stack)
 };

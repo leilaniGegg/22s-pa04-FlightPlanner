@@ -21,21 +21,15 @@ City::~City(){
 
 City::City(const City& temp){
     this->endCity = temp.endCity;
-    //this->airline = temp.airline;
     this->airlines = temp.airlines;
-    //this->cost = temp.cost;
     this->costs = temp.costs;
-    //this->time = temp.time;
     this->times = temp.times;
 }
 
 City& City::operator=(const City& temp){
     this->endCity = temp.endCity;
-    //this->airline = temp.airline;
     this->airlines = temp.airlines;
-    //this->cost = temp.cost;
     this->costs = temp.costs;
-    //this->time = temp.time;
     this->times = temp.times;
     return *this;
 }
@@ -50,6 +44,14 @@ bool City::operator==(const City& temp){
     }
     return false;
 }
+
+/*bool City::operator==(const DSString& temp){
+    if(this->endCity == temp){
+        return true;
+    }
+    return false;
+}*/
+
 DSString City::getEndCity()const{
     return endCity;
 }
