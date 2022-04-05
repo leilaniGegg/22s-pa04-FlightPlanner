@@ -31,6 +31,7 @@ public:
     ///----------
     T& push_back(T);
     DSVector& sort();
+    void removeAtIndex(int index);
 
     ///----------
     /// ACCESSORS
@@ -127,6 +128,16 @@ DSVector<T>& DSVector<T>::sort(){
         }
     }
     return *this;
+}
+
+template <typename T>
+void DSVector<T>::removeAtIndex(int index){
+    for(int i = index; i < this->size - 1; i++){
+        data[i] = data[i+1];
+    }
+    //data[size-1] = NULL;
+    //delete data[size-1];
+    size--;
 }
 
 

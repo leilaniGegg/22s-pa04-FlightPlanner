@@ -31,7 +31,6 @@ int main(int argc, char** argv) {
         //runCatchTests();
     //}
     //else {
-
         FileManager fileIO;
         DSLinkedList<OriginCity> adjacencyList;
         fileIO.readFlightData(argv[1], adjacencyList);
