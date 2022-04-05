@@ -28,9 +28,10 @@ using namespace std;
 
 int main(int argc, char** argv) {
     //if(argc == 1) {
-        //runCatchTests();
+        runCatchTests();
     //}
     //else {
+    /*
         FileManager fileIO;
         DSLinkedList<OriginCity> adjacencyList;
         fileIO.readFlightData(argv[1], adjacencyList);
@@ -41,7 +42,7 @@ int main(int argc, char** argv) {
         fileIO.readRequestedFlights(argv[2], requests);
         FlightPlanner plans;
         plans.makeItinerary(requests, adjacencyList, argv[3]);
-
+*/
    //}
     return 0;
 }

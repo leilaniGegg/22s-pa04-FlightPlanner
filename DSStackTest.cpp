@@ -8,7 +8,7 @@
 #include "DSLinkedList.h"
 
 TEST_CASE("DSSTACK TESTS", "[stack]"){
-    /*
+
     DSStack<DSString> stack;
     stack.push("Houston");
     stack.push("Dallas");
@@ -17,6 +17,8 @@ TEST_CASE("DSSTACK TESTS", "[stack]"){
 
     SECTION("PUSH"){
         //pretty much tested from ^^^
+        stack.push("pushing even MORE");
+        REQUIRE((stack.peek() == "pushing even MORE"));
     }
     SECTION("PEEK and POP"){
         REQUIRE((stack.peek() == "Seattle"));
@@ -27,5 +29,15 @@ TEST_CASE("DSSTACK TESTS", "[stack]"){
         stack.pop();
         REQUIRE((stack.peek() == "Houston"));
     }
-     */
+     SECTION("ISEMPTY"){
+        REQUIRE((stack.isEmpty() == false));
+        stack.pop();
+        REQUIRE((stack.isEmpty() == false));
+        stack.pop();
+        REQUIRE((stack.isEmpty() == false));
+        stack.pop();
+        REQUIRE((stack.isEmpty() == false));
+        stack.pop();
+        REQUIRE((stack.isEmpty() == true));
+    }
 }
